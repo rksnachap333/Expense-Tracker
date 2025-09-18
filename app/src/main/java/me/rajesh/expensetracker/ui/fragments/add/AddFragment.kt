@@ -1,14 +1,19 @@
 package me.rajesh.expensetracker.ui.fragments.add
 
+import android.content.ContentValues
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -20,6 +25,7 @@ import me.rajesh.expensetracker.databinding.FragmentAddBinding
 import me.rajesh.expensetracker.di.component.DaggerAddFragmentComponent
 import me.rajesh.expensetracker.ui.base.UiState
 import me.rajesh.expensetracker.ui.fragments.common.shared_viewmodel.ExpenseViewModel
+import me.rajesh.expensetracker.ui.fragments.expense_detail.ImageHandler
 import me.rajesh.expensetracker.utils.AppConstant
 import me.rajesh.expensetracker.utils.ToastUtils
 import javax.inject.Inject
@@ -28,6 +34,8 @@ class AddFragment : Fragment() {
 
     private var _binding: FragmentAddBinding? = null
     private val binding get() = _binding!!
+
+    private var imageUri: Uri? = null
 
     @Inject
     lateinit var expenseViewModel: ExpenseViewModel
@@ -78,6 +86,28 @@ class AddFragment : Fragment() {
         }
 
         binding.topAppBar.setNavigationOnClickListener { navigateToHome() }
+
+        binding.pickImageContainer.setOnClickListener {
+            pickImage.launch("image/*")
+        }
+
+        binding.takeImageContainer.setOnClickListener {
+            imageUri = createImageUri()
+            takePhoto.launch(imageUri)
+        }
+
+        binding.removeImage.setOnClickListener {
+            removeImage()
+        }
+    }
+
+    private fun createImageUri(): Uri? {
+        val resolver = requireContext().contentResolver
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, "receipt_${System.currentTimeMillis()}.jpg")
+            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+        }
+        return resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
     }
 
     private fun validateAndAddExpense() {
@@ -119,6 +149,12 @@ class AddFragment : Fragment() {
         val amountNonNull: Double = amount ?: return
         val categoryNonNull: String = category ?: return
 
+        var absolutePath = ""
+        if (imageUri != null && imageUri.toString().isNotEmpty()) {
+            absolutePath = ImageHandler(requireActivity()).copyUriToAppStorage(imageUri!!) ?: ""
+
+        }
+
         expenseViewModel.addExpense(
             ExpenseCreateDto(
                 title = titleNonNull,
@@ -126,7 +162,7 @@ class AddFragment : Fragment() {
                 category = categoryNonNull,
                 notes = notes,
                 timestamp = System.currentTimeMillis(),
-                file = ""
+                file = absolutePath
             )
         )
 
@@ -188,11 +224,34 @@ class AddFragment : Fragment() {
         binding.etAmount.text?.clear()
         binding.etNotes.text?.clear()
         binding.spinnerCategory.setText("")
+        removeImage()
     }
 
     private fun navigateToHome() {
         val bottomNav =
             requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNav.selectedItemId = R.id.homeFragment
+    }
+
+    private val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        uri?.let {
+            imageUri = it
+            Glide.with(binding.imageContent).load(imageUri).into(binding.imageContent)
+        }
+    }
+
+    private val takePhoto =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+            if (success && imageUri != null) {
+                Glide.with(binding.imageContent).load(imageUri).into(binding.imageContent)
+            }
+        }
+
+    private fun removeImage() {
+        imageUri?.let {
+            imageUri = null
+            Glide.with(binding.imageContent).load(imageUri).into(binding.imageContent)
+        }
+
     }
 }

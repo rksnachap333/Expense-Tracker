@@ -1,7 +1,9 @@
 package me.rajesh.expensetracker.ui.fragments.expense_detail
 
 import android.graphics.drawable.GradientDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.text.format.DateFormat.getDateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +14,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.launch
@@ -103,6 +106,13 @@ class ExpenseDetails : Fragment() {
         categoryEnum?.let {
             binding.categoryIcon.setImageResource(categoryEnum.icon)
         }
+
+        val imageUriString = expenseResponseDto.file
+        if (imageUriString.isNotEmpty()) {
+            Glide.with(binding.imageContent).load(imageUriString).into(binding.imageContent)
+        }
+
+
     }
 
     private fun setEditableData(expenseResponseDto: ExpenseResponseDto) {
@@ -116,12 +126,17 @@ class ExpenseDetails : Fragment() {
         binding.backButton.setOnClickListener { navigateToBack() }
         binding.deleteExpenseButton.setOnClickListener { deleteExpense() }
         binding.deleteButton.setOnClickListener { deleteExpense() }
+        binding.editButton.setOnClickListener { openEditDialog() }
         binding.editExpenseButton.setOnClickListener {
-            showEditExpenseDialog(expenseResponseDto) {
-                saveEditedExpense(it)
-            }
+            openEditDialog()
         }
 
+    }
+
+    private fun openEditDialog() {
+        showEditExpenseDialog(expenseResponseDto) {
+            saveEditedExpense(it)
+        }
     }
 
     private fun navigateToBack() {

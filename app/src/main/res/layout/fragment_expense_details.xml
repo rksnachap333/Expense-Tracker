@@ -41,6 +41,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
+
                 <ImageButton
                     android:id="@+id/deleteButton"
                     android:layout_width="48dp"
@@ -49,6 +50,16 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="Delete"
                     android:src="@drawable/ic_delete"
+                    app:tint="@color/onSurface" />
+
+                <ImageButton
+                    android:id="@+id/editButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Delete"
+                    android:src="@drawable/ic_edit"
                     app:tint="@color/onSurface" />
 
             </LinearLayout>
@@ -184,10 +195,11 @@
                         <androidx.cardview.widget.CardView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
                             android:backgroundTint="#E8F5E8"
                             app:cardCornerRadius="5dp"
-                            app:cardElevation="0dp"
-                            android:layout_marginBottom="10dp">
+                            app:cardElevation="0dp">
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -304,8 +316,13 @@
                                 android:text="1758171880544"
                                 android:textColor="@color/onSurface"
                                 android:textSize="12sp" />
-
                         </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/image_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp" />
 
                     </LinearLayout>
 
