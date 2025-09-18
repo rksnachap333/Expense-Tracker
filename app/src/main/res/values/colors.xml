@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--**********************************************-->
+    <!--           Light Theme Color                  -->
+
+    <color name="colorPrimary">#2563EB</color>
+    <color name="colorPrimaryVariant">#1D4ED8</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+
+    <!-- Secondary Colors -->
+    <color name="colorSecondary">#64748B</color>
+    <color name="colorSecondaryVariant">#475569</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
+
+    <!-- Background Colors -->
+    <color name="backgroundColor">#FFFFFF</color>
+    <color name="surfaceColor">#F8FAFC</color>
+    <color name="onBackground">#1E293B</color>
+    <color name="onSurface">#334155</color>
+
+    <!-- Icon Colors Light Mode -->
+    <color name="icon_primary">#2563EB</color>
+    <color name="icon_secondary">#64748B</color>
+    <color name="icon_success">#16A34A</color>
+    <color name="icon_danger">#DC2626</color>
+    <color name="icon_warning">#D97706</color>
+    <color name="icon_muted">#94A3B8</color>
+    <color name="icon_accent">#7C3AED</color>
+    <color name="icon_neutral">#374151</color>
+    <color name="icon_income">#16A34A</color>
+    <color name="icon_expense">#DC2626</color>
+
+    <!-- Card and Border Colors -->
+    <color name="cardBackground">#FFFFFF</color>
+    <color name="borderColor">#E2E8F0</color>
+    <color name="dividerColor">#F1F5F9</color>
+
+    <!-- Category Icon Colors -->
+    <color name="category_food">#F59E0B</color>
+    <color name="category_transport">#3B82F6</color>
+    <color name="category_shopping">#EC4899</color>
+    <color name="category_entertainment">#8B5CF6</color>
+    <color name="category_health">#EF4444</color>
+    <color name="category_education">#10B981</color>
+    <color name="category_travel">#06B6D4</color>
+    <color name="category_utilities">#EF4444</color>
+    <color name="category_staff">#8B5CF6</color>
+
+
+
+</resources>

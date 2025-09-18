@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="me.rajesh.expensetracker.ui.fragments.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_expenseDetails"
+            app:destination="@id/expenseDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/addFragment"
+        android:name="me.rajesh.expensetracker.ui.fragments.add.AddFragment"
+        android:label="fragment_add"
+        tools:layout="@layout/fragment_add" />
+    <fragment
+        android:id="@+id/expenseListFragment"
+        android:name="me.rajesh.expensetracker.ui.fragments.expense_list.ExpenseListFragment"
+        android:label="fragment_expense_list"
+        tools:layout="@layout/fragment_expense_list" >
+        <action
+            android:id="@+id/action_expenseListFragment_to_expenseDetails"
+            app:destination="@id/expenseDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/reportFragment"
+        android:name="me.rajesh.expensetracker.ui.fragments.report.ReportFragment"
+        android:label="fragment_report"
+        tools:layout="@layout/fragment_report" />
+    <fragment
+        android:id="@+id/expenseDetails"
+        android:name="me.rajesh.expensetracker.ui.fragments.expense_detail.ExpenseDetails"
+        android:label="fragment_expense_details"
+        tools:layout="@layout/fragment_expense_details" >
+        <argument
+            android:name="expenseResponseDto"
+            app:argType="me.rajesh.expensetracker.data.model.ExpenseResponseDto" />
+    </fragment>
+</navigation>
